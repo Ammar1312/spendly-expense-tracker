@@ -68,13 +68,18 @@
         </label>
 
         <div class="topbar__actions">
-          <button class="ghost-button" id="importCsvButton" type="button">Import CSV</button>
-          <input class="visually-hidden" id="csvFileInput" type="file" accept=".csv,text/csv">
-          <button class="ghost-button is-hidden" id="exportCsvButton" type="button">Export CSV</button>
-          <button class="ghost-button" id="restoreBackupButton" type="button">Restore</button>
-          <input class="visually-hidden" id="jsonFileInput" type="file" accept=".json,application/json">
-          <button class="ghost-button" id="exportBackupButton" type="button">Backup</button>
-          <button class="ghost-button ghost-button--danger is-hidden" id="clearAllButton" type="button">Clear all</button>
+          <details class="tools-menu" id="advancedTools">
+            <summary class="ghost-button tools-menu__trigger">Advanced Tools</summary>
+            <div class="tools-menu__content">
+              <button class="tools-menu__item" id="importCsvButton" type="button">Import CSV</button>
+              <input class="visually-hidden" id="csvFileInput" type="file" accept=".csv,text/csv">
+              <button class="tools-menu__item is-hidden" id="exportCsvButton" type="button">Export CSV</button>
+              <button class="tools-menu__item" id="restoreBackupButton" type="button">Restore backup</button>
+              <input class="visually-hidden" id="jsonFileInput" type="file" accept=".json,application/json">
+              <button class="tools-menu__item" id="exportBackupButton" type="button">Create backup</button>
+              <button class="tools-menu__item tools-menu__item--danger is-hidden" id="clearAllButton" type="button">Clear all data</button>
+            </div>
+          </details>
           <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
             <span class="theme-toggle__icon" aria-hidden="true"></span>
           </button>
@@ -88,16 +93,33 @@
           <p id="reportRangeLabel">Track your monthly activities</p>
         </div>
 
-        <div class="report-actions" aria-label="Report period">
-          <div class="period-tabs">
-            <button class="period-tab is-active" type="button" data-report-period="today">Today</button>
-            <button class="period-tab" type="button" data-report-period="month">This month</button>
-            <button class="period-tab" type="button" data-report-period="all">All</button>
+        <div class="report-side">
+          <div class="report-snapshot" aria-label="Account summary">
+            <article class="report-snapshot__item report-snapshot__item--balance">
+              <span>Total Balance</span>
+              <strong id="heroBalanceAmount">EUR 0.00</strong>
+            </article>
+            <article class="report-snapshot__item">
+              <span>Income</span>
+              <strong class="income-text" id="heroIncomeAmount">EUR 0.00</strong>
+            </article>
+            <article class="report-snapshot__item">
+              <span>Expenses</span>
+              <strong class="expense-text" id="heroExpenseAmount">EUR 0.00</strong>
+            </article>
           </div>
-          <label class="date-chip">
-            <span>Date</span>
-            <input id="customDateInput" type="date">
-          </label>
+
+          <div class="report-actions" aria-label="Report period">
+            <div class="period-tabs">
+              <button class="period-tab is-active" type="button" data-report-period="today">Today</button>
+              <button class="period-tab" type="button" data-report-period="month">This month</button>
+              <button class="period-tab" type="button" data-report-period="all">All</button>
+            </div>
+            <label class="date-chip">
+              <span>Date</span>
+              <input id="customDateInput" type="date">
+            </label>
+          </div>
         </div>
       </section>
 
@@ -276,22 +298,6 @@
                 <span aria-hidden="true">-</span>
                 Add expense
               </button>
-              <button class="quick-action" type="button" data-quick-action="import">
-                <span aria-hidden="true">IN</span>
-                Import
-              </button>
-              <button class="quick-action" type="button" data-quick-action="export">
-                <span aria-hidden="true">CSV</span>
-                Export
-              </button>
-              <button class="quick-action" type="button" data-quick-action="backup">
-                <span aria-hidden="true">BK</span>
-                Backup
-              </button>
-              <button class="quick-action" type="button" data-quick-action="restore">
-                <span aria-hidden="true">RS</span>
-                Restore
-              </button>
             </div>
           </article>
         </section>
@@ -385,6 +391,7 @@
 
               <button class="filter-reset" id="resetFiltersButton" type="button">Reset</button>
             </div>
+            <div class="active-filter-summary is-hidden" id="activeFilterSummary" aria-live="polite"></div>
           </div>
 
           <div class="table-head" aria-hidden="true">
@@ -400,7 +407,7 @@
           <div class="empty-state is-hidden" id="emptyState">
             <div class="empty-state__mark" aria-hidden="true"></div>
             <h3>No transactions yet</h3>
-            <p>Add your first income or expense to populate the dashboard with real data.</p>
+            <p>Add your first transaction or load realistic sample data to preview the dashboard instantly.</p>
             <button class="secondary-button" id="seedDemoButton" type="button">Load demo data</button>
           </div>
 

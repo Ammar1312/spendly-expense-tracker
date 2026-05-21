@@ -4,6 +4,10 @@ Spendly is a responsive personal finance dashboard built with HTML, CSS, Vanilla
 
 Users can manage transactions, review income and expenses, control budgets, import/export data, and keep everything stored locally in the browser.
 
+## Live Demo
+
+[View live project](https://ammar1312.github.io/CRUD-projects/)
+
 ## Overview
 
 This project focuses on the workflows a small finance manager needs: form validation, persistent state, charts, filtering, sorting, custom confirmations, CSV import/export, JSON backup/restore, dark/light mode, and responsive navigation.
@@ -26,6 +30,7 @@ The app is intentionally frontend-only. There is no backend layer; data is store
 - Use demo data for a quick preview
 - Import and export CSV files
 - Export and restore full JSON backups
+- Keep file and reset actions grouped inside an Advanced Tools menu
 - Toggle dark and light mode
 - Use a scroll-aware sidebar on desktop
 - Use bottom navigation on mobile

@@ -53,6 +53,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 
 const elements = {
   themeToggle: document.querySelector("#themeToggle"),
+  advancedTools: document.querySelector("#advancedTools"),
   importCsvButton: document.querySelector("#importCsvButton"),
   csvFileInput: document.querySelector("#csvFileInput"),
   exportCsvButton: document.querySelector("#exportCsvButton"),
@@ -91,6 +92,9 @@ const elements = {
   reportTransactionCount: document.querySelector("#reportTransactionCount"),
   reportTransactionMeta: document.querySelector("#reportTransactionMeta"),
   balanceAmount: document.querySelector("#balanceAmount"),
+  heroBalanceAmount: document.querySelector("#heroBalanceAmount"),
+  heroIncomeAmount: document.querySelector("#heroIncomeAmount"),
+  heroExpenseAmount: document.querySelector("#heroExpenseAmount"),
   balanceMeta: document.querySelector("#balanceMeta"),
   incomeAmount: document.querySelector("#incomeAmount"),
   incomeMeta: document.querySelector("#incomeMeta"),
@@ -126,6 +130,7 @@ const elements = {
   typeFilter: document.querySelector("#typeFilter"),
   categoryFilter: document.querySelector("#categoryFilter"),
   sortInput: document.querySelector("#sortInput"),
+  activeFilterSummary: document.querySelector("#activeFilterSummary"),
   resetFiltersButton: document.querySelector("#resetFiltersButton"),
   transactionsList: document.querySelector("#transactionsList"),
   emptyState: document.querySelector("#emptyState"),
@@ -179,6 +184,11 @@ function bindEvents() {
   elements.confirmModal.addEventListener("click", (event) => {
     if (event.target === elements.confirmModal) {
       closeConfirmDialog(false);
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (elements.advancedTools.open && !elements.advancedTools.contains(event.target)) {
+      elements.advancedTools.open = false;
     }
   });
   elements.form.addEventListener("submit", handleFormSubmit);
@@ -434,6 +444,7 @@ async function clearAllTransactions() {
     return;
   }
 
+  closeAdvancedTools();
   const confirmed = await showConfirmDialog({
     title: "Clear all transactions?",
     message: "This will remove every saved transaction from LocalStorage. This action cannot be undone.",
@@ -532,8 +543,13 @@ function handleQuickAction(action) {
 }
 
 function triggerFileInput(input) {
+  closeAdvancedTools();
   input.value = "";
   input.click();
+}
+
+function closeAdvancedTools() {
+  elements.advancedTools.open = false;
 }
 
 function prepareTransactionType(type) {
@@ -598,6 +614,9 @@ function renderSummary() {
   elements.balanceAmount.textContent = formatMoney(balance);
   elements.incomeAmount.textContent = formatMoney(incomeTotal);
   elements.expenseAmount.textContent = formatMoney(expenseTotal);
+  elements.heroBalanceAmount.textContent = formatMoney(balance);
+  elements.heroIncomeAmount.textContent = formatMoney(incomeTotal);
+  elements.heroExpenseAmount.textContent = formatMoney(expenseTotal);
   elements.balanceMeta.textContent = transactions.length
     ? `${transactions.length} total transactions`
     : "No transactions yet";
@@ -1310,6 +1329,70 @@ function renderTransactionsSection() {
   elements.emptyState.classList.toggle("is-hidden", hasTransactions);
   elements.noResultsState.classList.toggle("is-hidden", !hasTransactions || hasFilteredResults);
   elements.resetFiltersButton.disabled = !hasActiveFilters;
+  renderActiveFilterSummary();
+}
+
+function renderActiveFilterSummary() {
+  const activeFilters = getActiveFilterLabels();
+
+  elements.activeFilterSummary.innerHTML = "";
+  elements.activeFilterSummary.classList.toggle("is-hidden", activeFilters.length === 0);
+
+  activeFilters.forEach((label) => {
+    const chip = document.createElement("span");
+    chip.textContent = label;
+    elements.activeFilterSummary.appendChild(chip);
+  });
+}
+
+function getActiveFilterLabels() {
+  const labels = [];
+  const searchTerm = elements.searchInput.value.trim();
+  const type = elements.typeFilter.value;
+  const category = elements.categoryFilter.value;
+  const sortMode = elements.sortInput.value;
+
+  if (searchTerm) {
+    labels.push(`Search: ${searchTerm}`);
+  }
+
+  if (type !== "all") {
+    labels.push(`Type: ${TYPE_LABELS[type]}`);
+  }
+
+  if (category !== "all") {
+    labels.push(`Category: ${category}`);
+  }
+
+  if (sortMode !== "newest") {
+    labels.push(`Sort: ${getSelectedOptionText(elements.sortInput)}`);
+  }
+
+  if (reportPeriod !== "month") {
+    labels.push(`Period: ${getReportPeriodLabel()}`);
+  }
+
+  return labels;
+}
+
+function getSelectedOptionText(select) {
+  return select.options[select.selectedIndex]?.textContent || "";
+}
+
+function getReportPeriodLabel() {
+  if (reportPeriod === "today") {
+    return "Today";
+  }
+
+  if (reportPeriod === "custom") {
+    return "Selected date";
+  }
+
+  if (reportPeriod === "all") {
+    return "All";
+  }
+
+  return "This month";
 }
 
 function resetFilters(showFeedback = true) {
@@ -1341,6 +1424,7 @@ function exportTransactionsToCsv() {
     return;
   }
 
+  closeAdvancedTools();
   const csvContent = buildCsvContent(transactions);
   const blob = new Blob([`\uFEFF${csvContent}`], {
     type: "text/csv;charset=utf-8;"
@@ -1351,6 +1435,7 @@ function exportTransactionsToCsv() {
 }
 
 function exportJsonBackup() {
+  closeAdvancedTools();
   const blob = new Blob([JSON.stringify(createBackupData(), null, 2)], {
     type: "application/json;charset=utf-8;"
   });
