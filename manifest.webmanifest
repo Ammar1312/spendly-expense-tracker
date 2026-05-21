@@ -1,0 +1,17 @@
+{
+  "name": "Spendly Expense Tracker",
+  "short_name": "Spendly",
+  "description": "Portfolio finance manager for tracking income, expenses, budgets, and financial insights.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#090910",
+  "theme_color": "#090910",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
