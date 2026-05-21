@@ -1790,10 +1790,39 @@ select option {
   font-weight: 730;
 }
 
+.empty-state__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 10px;
+  padding: 0 11px;
+  border: 1px solid rgba(98, 233, 168, 0.38);
+  border-radius: 999px;
+  background: rgba(98, 233, 168, 0.12);
+  color: var(--income);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .empty-state .secondary-button {
-  min-width: 170px;
-  margin-top: 20px;
-  box-shadow: 0 14px 34px rgba(45, 127, 255, 0.2);
+  min-width: 190px;
+  margin-top: 22px;
+}
+
+.empty-state__cta {
+  min-height: 48px;
+  border: 1px solid rgba(98, 233, 168, 0.42);
+  background: linear-gradient(135deg, var(--income), #2d7fff);
+  color: #061016;
+  box-shadow: 0 18px 44px rgba(98, 233, 168, 0.22);
+  font-size: 0.92rem;
+  letter-spacing: 0;
+}
+
+.empty-state__cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 54px rgba(98, 233, 168, 0.3);
 }
 
 .empty-state__mark {
@@ -1924,6 +1953,10 @@ select option {
 
 .toast--danger {
   border-color: rgba(255, 135, 95, 0.5);
+}
+
+.toast--warning {
+  border-color: rgba(255, 193, 95, 0.52);
 }
 
 @keyframes riseIn {

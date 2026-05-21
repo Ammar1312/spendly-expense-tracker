@@ -511,26 +511,6 @@ function handleTransactionAction(event) {
 }
 
 function handleQuickAction(action) {
-  if (action === "export") {
-    exportTransactionsToCsv();
-    return;
-  }
-
-  if (action === "import") {
-    triggerFileInput(elements.csvFileInput);
-    return;
-  }
-
-  if (action === "backup") {
-    exportJsonBackup();
-    return;
-  }
-
-  if (action === "restore") {
-    triggerFileInput(elements.jsonFileInput);
-    return;
-  }
-
   if (!["income", "expense"].includes(action)) {
     return;
   }
@@ -823,7 +803,7 @@ function handleBudgetChange() {
   budgetGoal = nextBudget;
   saveBudgetGoal();
   renderMonthlyOverview();
-  showToast("Budget goal saved.");
+  showToast("Budget goal saved.", "warning");
 }
 
 function handleCategoryBudgetChange(event) {
@@ -997,7 +977,7 @@ function renderFlowChart(selectedMonth, monthlyTransactions) {
   const hasData = monthlyTransactions.length > 0;
 
   elements.chartTitle.textContent = "Income and expenses";
-  elements.chartEmpty.textContent = "No data for the selected month.";
+  elements.chartEmpty.textContent = "No monthly data yet. Add a transaction or load demo data.";
   elements.chartEmpty.classList.toggle("is-hidden", hasData);
 
   if (!hasData) {
@@ -1036,7 +1016,7 @@ function renderCategoryChart(monthlyTransactions) {
   const hasData = values.length > 0;
 
   elements.chartTitle.textContent = "Expenses by category";
-  elements.chartEmpty.textContent = "No expenses for the selected month.";
+  elements.chartEmpty.textContent = "No category data yet. Add an expense to build this chart.";
   elements.chartEmpty.classList.toggle("is-hidden", hasData);
 
   if (!hasData) {
@@ -1073,7 +1053,7 @@ function renderAnnualChart(selectedMonth) {
   const hasData = yearlyTransactions.length > 0;
 
   elements.chartTitle.textContent = `${selectedYear} annual overview`;
-  elements.chartEmpty.textContent = `No data for ${selectedYear}.`;
+  elements.chartEmpty.textContent = `No data for ${selectedYear}. Add transactions or load demo data.`;
   elements.chartEmpty.classList.toggle("is-hidden", hasData);
 
   if (!hasData) {
