@@ -6,7 +6,17 @@ Users can manage transactions, review income and expenses, control budgets, impo
 
 ## Live Demo
 
-[View live project](https://ammar1312.github.io/CRUD-projects/)
+[Live Demo](https://ammar1312.github.io/spendly-expense-tracker/) | [Source Code](https://github.com/Ammar1312/spendly-expense-tracker)
+
+Open the live version to test the full dashboard experience directly in the browser.
+
+## Preview
+
+![Spendly desktop dashboard preview](assets/desktop-preview.png)
+
+<p align="center">
+  <img src="assets/mobile-preview.jpg" alt="Spendly mobile dashboard preview" width="320">
+</p>
 
 ## Overview
 
@@ -121,6 +131,9 @@ Before presenting or deploying the project, test these workflows:
 |-- index.html
 |-- styles.css
 |-- script.js
+|-- assets/
+|   |-- desktop-preview.png
+|   `-- mobile-preview.jpg
 |-- favicon.svg
 |-- manifest.webmanifest
 |-- Scene.mp4
